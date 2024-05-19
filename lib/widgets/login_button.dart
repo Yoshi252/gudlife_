@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatefulWidget {
-  const LoginButton({super.key});
+  const LoginButton({super.key, required this.authText, required this.onSubmitForm});
 
-  //final String authText;
+  final String authText;
+  final void Function() onSubmitForm;
 
   @override
   State<LoginButton> createState() => _LoginButtonState();
@@ -18,6 +19,7 @@ class _LoginButtonState extends State<LoginButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
           onTap: () {
+            widget.onSubmitForm;
             setState(() {
               pressed = !pressed;
               Function() {
@@ -29,6 +31,7 @@ class _LoginButtonState extends State<LoginButton> {
               var duration = Duration(milliseconds: 300);
               Timer(duration, Function);
             });
+
           },
           child: AnimatedOpacity(
             opacity: pressed ? 0.3 : 1,
@@ -47,8 +50,7 @@ class _LoginButtonState extends State<LoginButton> {
                 ),
               ),
               child: Center(
-                child: Text('Login')
-                //Text(widget.authText),
+                child: Text(widget.authText),
               ),
             ),
           ),

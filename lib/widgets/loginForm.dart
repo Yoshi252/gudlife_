@@ -35,6 +35,24 @@ class _LoginFormState extends State<LoginForm>
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
+
+  var _isLogin = true;
+  var _enteredEmail = '';
+  var _enteredPassword = '';
+
+
+  void _submit() {
+    final isValid = _formKey.currentState!.validate();
+
+
+    if (isValid) {
+      _formKey.currentState!.save();
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -60,13 +78,30 @@ class _LoginFormState extends State<LoginForm>
                     height: 20,
                   ),
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         InputFields(),
                         const SizedBox(
                           height: 20,
                         ),
-                        LoginButton(),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _isLogin = !_isLogin;
+                            });
+                          },
+                          child: Text(
+                            _isLogin
+                                ? 'Create an account'
+                                : 'I already have an account.',
+                          ),
+                        ),
+
+                        LoginButton(
+                          authText: _isLogin ? 'Sign Up' : 'Sign up', 
+                          onSubmitForm: _submit,
+                        ),
                         const SizedBox(
                           height: 15,
                         ),

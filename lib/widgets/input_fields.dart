@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
-class InputFields extends StatelessWidget {
+class InputFields extends StatefulWidget {
   const InputFields({super.key});
 
+  @override
+  State<InputFields> createState() => _InputFieldsState();
+}
+
+class _InputFieldsState extends State<InputFields> {
+
+  var _enteredEmail = '';
+  var _enteredPassword = '';
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +63,9 @@ class InputFields extends StatelessWidget {
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.none,
             ),
-            // onSaved: (value){
-            //   _enteredEmail = value!;
-            // },
+            onSaved: (value){
+              _enteredEmail = value!;
+            },
 
           ),
         ),
@@ -110,9 +118,9 @@ class InputFields extends StatelessWidget {
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.none,
             ),
-            // onSaved: (value) {
-            //   _enteredPassword = value!;
-            // },
+            onSaved: (value) {
+              _enteredPassword = value!;
+            },
           ),
         ),
       ],
