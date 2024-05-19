@@ -20,8 +20,10 @@ class _InputFieldsState extends State<InputFields> {
           width: 300,
           child: TextFormField(
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter Email';
+              if (value == null ||
+                  value.trim().isEmpty ||
+                  !value.contains('@')) {
+                return 'Please enter a valid email address';
               }
               return null;
             },
@@ -76,8 +78,9 @@ class _InputFieldsState extends State<InputFields> {
           width: 300,
           child: TextFormField(
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter Email';
+              if (value == null ||
+                  value.trim().length < 6) {
+                return 'Password must be atleast 6 characther long';
               }
               return null;
             },

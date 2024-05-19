@@ -39,9 +39,6 @@ class _LoginFormState extends State<LoginForm>
 
 
   var _isLogin = true;
-  var _enteredEmail = '';
-  var _enteredPassword = '';
-
 
   void _submit() {
     final isValid = _formKey.currentState!.validate();
@@ -99,7 +96,7 @@ class _LoginFormState extends State<LoginForm>
                         ),
 
                         LoginButton(
-                          authText: _isLogin ? 'Sign Up' : 'Sign up', 
+                          authText: _isLogin ? 'Sign In' : 'Sign Up', 
                           onSubmitForm: _submit,
                         ),
                         const SizedBox(
