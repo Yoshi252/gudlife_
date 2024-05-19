@@ -20,7 +20,7 @@ class _SplashState extends State<Splash> with RouteAware{
   }
 
   startTimer(){
-    var duration = Duration(milliseconds: 3340);
+    var duration = Duration(milliseconds: 3300);
     return Timer(duration, route);
   }
 
@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> with RouteAware{
     print(ModalRoute.of(context)?.settings.name);
   }
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),

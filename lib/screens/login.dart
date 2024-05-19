@@ -13,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> with RouteAware{
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Container(
           decoration: const BoxDecoration(
