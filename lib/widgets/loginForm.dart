@@ -53,13 +53,17 @@ class _LoginFormState extends State<LoginForm>
 
     _formKey.currentState!.save();
 
-    if (_isLogin) {
-      // log user in
-    } else {
-      try {
-        final userCredentials = await _firebase.createUserWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
-        print(userCredentials);
+    try {
+      if (_isLogin) {
+        final userCredentials = await _firebase.signInWithEmailAndPassword(
+              email: _enteredEmail, password: _enteredPassword
+      );
+          print(userCredentials);
+        } else {
+          final userCredentials = await _firebase.createUserWithEmailAndPassword(
+              email: _enteredEmail, password: _enteredPassword);
+          print(userCredentials);
+        }
       } on FirebaseAuthException catch (error) {
         if (error.code == 'email-already-in-use') {
           // ..
@@ -71,7 +75,6 @@ class _LoginFormState extends State<LoginForm>
           ),
         );
       }
-    }
   }
 
   bool pressed = false;
