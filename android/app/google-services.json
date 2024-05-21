@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "724443731941",
+    "project_id": "gudlife-92f4a",
+    "storage_bucket": "gudlife-92f4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724443731941:android:a963cdfa7e75e8b33a410c",
+        "android_client_info": {
+          "package_name": "com.example.gudlife_"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe0ExUHO_ZDINBtWUMreym9Y-svI2de9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

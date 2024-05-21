@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gudlife_/firebase_options.dart';
 import 'package:gudlife_/screens/auth.dart';
 import 'package:gudlife_/screens/splash.dart';
-
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -16,17 +18,25 @@ final theme = ThemeData(
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 
-void main() {
-  runApp(
-    MaterialApp(
-      theme: theme,
-      navigatorObservers: <NavigatorObserver>[routeObserver],
-      routes: {
-        '/': (context) => Splash(),
-        '/login': (context) => LoginScreen(),
-      },
-    ),
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((fn) {
+    runApp(
+      MaterialApp(
+        theme: theme,
+        navigatorObservers: <NavigatorObserver>[routeObserver],
+        routes: {
+          '/': (context) => Splash(),
+          '/login': (context) => LoginScreen(),
+        },
+      ),
+    );
+  });
 }
 
 class App extends StatelessWidget {
@@ -34,9 +44,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: theme,
-      home: const LoginScreen()
-    );
+    return MaterialApp(theme: theme, home: const LoginScreen());
   }
 }
