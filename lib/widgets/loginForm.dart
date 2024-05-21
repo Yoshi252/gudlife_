@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:gudlife_/widgets/login_button.dart';
 import 'package:gudlife_/widgets/sign_in_logo_buttons.dart';
 import 'package:gudlife_/widgets/sign_up_with.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -229,7 +227,7 @@ class _LoginFormState extends State<LoginForm>
                           },
                           child: Text(
                             _isLogin
-                                ? 'Create an account'
+                                ? 'Create an account?'
                                 : 'I already have an account?',
                           ),
                         ),

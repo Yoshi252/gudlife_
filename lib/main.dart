@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gudlife_/firebase_options.dart';
 import 'package:gudlife_/screens/auth.dart';
-import 'package:gudlife_/screens/home.dart';
+import 'package:gudlife_/screens/login.dart';
 import 'package:gudlife_/screens/splash.dart';
 
 final theme = ThemeData(
@@ -32,22 +31,11 @@ void main() async {
       MaterialApp(
         theme: theme,
         navigatorObservers: <NavigatorObserver>[routeObserver],
-        // routes: {
-        //   '/': (context) => Splash(),
-        //   '/login': (context) => LoginScreen(),
-        // },
-        home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, snapshot) {
-          if (snapshot.hasData) {
-            return const HomeScreen();
-          }
-
-
-          return const LoginScreen();
+        routes: {
+          '/auth': (context) => const AuthScreen(),
+          '/splash': (context) => const SplashScreen(),
         },
-      ),
-
+        initialRoute: '/splash',
       ),
     );
   });

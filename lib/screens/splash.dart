@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
 
   @override
-  State<Splash> createState() => _SplashState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashState extends State<Splash> with RouteAware{
+class _SplashScreenState extends State<SplashScreen> with RouteAware{
   var isVisible = false;
 
   void initState() {
@@ -25,8 +25,7 @@ class _SplashState extends State<Splash> with RouteAware{
   }
 
   route(){
-    Navigator.pushReplacementNamed(context, '/login');
-    print(ModalRoute.of(context)?.settings.name);
+    Navigator.pushReplacementNamed(context, '/auth');
   }
 
   @override 

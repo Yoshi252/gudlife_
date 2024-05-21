@@ -1,35 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:gudlife_/widgets/loginForm.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gudlife_/screens/home.dart';
+import 'package:gudlife_/screens/loading.dart';
+import 'package:gudlife_/screens/login.dart';
 
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({super.key});
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> with RouteAware{
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (ctx, snapshot) {
+        if (snapshot.hasData) {
+          return const HomeScreen();
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const LoadingScreen();
+        }
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 50, 50, 50),
-                Color.fromARGB(255, 0, 0, 0)
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-          child: const LoginForm(),
-        ),
-      ),
+        return const LoginScreen();
+      },
     );
   }
 }
