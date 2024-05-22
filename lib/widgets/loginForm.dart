@@ -37,6 +37,8 @@ class _LoginFormState extends State<LoginForm>
   }
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _pass = TextEditingController();
+  final TextEditingController _confirmPass = TextEditingController();
 
   var _isLogin = true;
   var _enteredEmail = '';
@@ -54,25 +56,24 @@ class _LoginFormState extends State<LoginForm>
     try {
       if (_isLogin) {
         final userCredentials = await _firebase.signInWithEmailAndPassword(
-              email: _enteredEmail, password: _enteredPassword
-      );
-          print(userCredentials);
-        } else {
-          final userCredentials = await _firebase.createUserWithEmailAndPassword(
-              email: _enteredEmail, password: _enteredPassword);
-          print(userCredentials);
-        }
-      } on FirebaseAuthException catch (error) {
-        if (error.code == 'email-already-in-use') {
-          // ..
-        }
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(error.message ?? 'Authentication Failed'),
-          ),
-        );
+            email: _enteredEmail, password: _enteredPassword);
+        print(userCredentials);
+      } else {
+        final userCredentials = await _firebase.createUserWithEmailAndPassword(
+            email: _enteredEmail, password: _enteredPassword);
+        print(userCredentials);
       }
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'email-already-in-use') {
+        // ..
+      }
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error.message ?? 'Authentication Failed'),
+        ),
+      );
+    }
   }
 
   bool pressed = false;
@@ -84,10 +85,10 @@ class _LoginFormState extends State<LoginForm>
         child: Stack(
           clipBehavior: Clip.antiAlias,
           children: [
-            const Image(
-              image: AssetImage("assets/images/greenslime.png"),
-              fit: BoxFit.fill,
-            ),
+            // const Image(
+            //   image: AssetImage("assets/images/greenslime.png"),
+            //   fit: BoxFit.fill,
+            // ),
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -104,6 +105,7 @@ class _LoginFormState extends State<LoginForm>
                     key: _formKey,
                     child: Column(
                       children: [
+                        if (!_isLogin)
                         Container(
                           width: 300,
                           child: TextFormField(
@@ -116,6 +118,71 @@ class _LoginFormState extends State<LoginForm>
                               return null;
                             },
                             decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.person_2_outlined ),
+                              label: const Text('Username'),
+                              hintText: 'Enter Username',
+                              hintStyle: const TextStyle(
+                                color: Color.fromARGB(255, 165, 165, 165),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color:
+                                      Color(0xFFE9EC19), // Default border color
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Color(0xFFE9EC19),
+                                    width: 2 // Default border color
+                                    ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 200, 218, 233),
+                                    width: 2 // Default border color
+                                    ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            autocorrect: false,
+                            textCapitalization: TextCapitalization.none,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              height: 1,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none,
+                            ),
+                            onSaved: (value) {
+                              _enteredEmail = value!;
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: 300,
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null ||
+                                  value.trim().isEmpty ||
+                                  !value.contains('@')) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.mail_outline_outlined ),
                               label: const Text('Email'),
                               hintText: 'Enter Email',
                               hintStyle: const TextStyle(
@@ -142,8 +209,12 @@ class _LoginFormState extends State<LoginForm>
                                     ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              errorBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
                             keyboardType: TextInputType.emailAddress,
@@ -166,6 +237,7 @@ class _LoginFormState extends State<LoginForm>
                         Container(
                           width: 300,
                           child: TextFormField(
+                            controller: _pass,
                             validator: (value) {
                               if (value == null || value.trim().length < 6) {
                                 return 'Password must be atleast 6 characther long';
@@ -173,6 +245,7 @@ class _LoginFormState extends State<LoginForm>
                               return null;
                             },
                             decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.password),
                               label: const Text('Password'),
                               hintText: 'Enter Password',
                               hintStyle: const TextStyle(
@@ -199,8 +272,78 @@ class _LoginFormState extends State<LoginForm>
                                     ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              errorBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            obscureText: true,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              height: 1,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none,
+                            ),
+                            onSaved: (value) {
+                              _enteredPassword = value!;
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (!_isLogin)
+                        Container(
+                          width: 300,
+                          child: TextFormField(
+                            controller: _confirmPass,
+                            validator: (value) {
+                              if (value == null || value.trim().length < 6) {
+                                return 'Password must be atleast 6 characther long';
+                              }
+                              if (value != _pass.text) {
+                                return 'Passwords must match';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.password),
+                              label: const Text('Confirm Password'),
+                              hintText: 'Re-Enter Password',
+                              hintStyle: const TextStyle(
+                                color: Color.fromARGB(255, 165, 165, 165),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color:
+                                      Color(0xFFE9EC19), // Default border color
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Color(0xFFE9EC19),
+                                    width: 2 // Default border color
+                                    ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 200, 218, 233),
+                                    width: 2 // Default border color
+                                    ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
                             keyboardType: TextInputType.emailAddress,
@@ -233,7 +376,7 @@ class _LoginFormState extends State<LoginForm>
                         ),
                         const SizedBox(
                           height: 5,
-                        ),                           
+                        ),
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -266,7 +409,7 @@ class _LoginFormState extends State<LoginForm>
                                 ),
                               ),
                               child: Center(
-                                child: Text('Login'),
+                                child: Text(_isLogin ? 'Login' : 'Sign Up'),
                               ),
                             ),
                           ),
