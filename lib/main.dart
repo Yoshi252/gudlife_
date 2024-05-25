@@ -13,7 +13,8 @@ final theme = ThemeData(
     brightness: Brightness.dark,
     seedColor: const Color.fromARGB(255, 131, 57, 0),
   ),
-  textTheme: GoogleFonts.latoTextTheme(),
+  //textTheme: GoogleFonts.latoTextTheme(),
+  fontFamily: 'Jost',
 );
 
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -46,6 +47,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: theme, home: const LoginScreen());
+    return MaterialApp(
+      theme: theme,
+      home: const LoginScreen(),
+    );
   }
 }
