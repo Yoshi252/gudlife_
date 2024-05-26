@@ -25,6 +25,7 @@ class Drink {
     required this.isWeightLoss,
     required this.isLowFat,
     required this.isGreen,
+    this.isLowBloodSugar,
   });
 
   final String id;
@@ -43,4 +44,5 @@ class Drink {
   final bool isWeightLoss;
   final bool isLowFat;
   final bool isGreen;
+  final bool? isLowBloodSugar;
 }
