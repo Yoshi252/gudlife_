@@ -1,13 +1,16 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gudlife_/data/dummy_data.dart';
 import 'package:gudlife_/models/category.dart';
 import 'package:gudlife_/models/drink.dart';
 import 'package:gudlife_/screens/drinks.dart';
+import 'package:gudlife_/widgets/categoryViewer.dart';
 import 'package:indexed/indexed.dart';
 import 'package:gudlife_/widgets/category_grid_item.dart';
 import 'package:gudlife_/widgets/drink_item.dart';
-
+ 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
 
@@ -106,8 +109,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pick Your category'),
+      appBar: AppBar(    
+        flexibleSpace: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        ),
+        toolbarHeight: 40, 
         actions: [
           IconButton(
             onPressed: () {
@@ -125,36 +136,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             crossAxisSpacing: 20,
             mainAxisSpacing: 8),
         children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(width: 1, color: const Color.fromARGB(255, 255, 255, 255)),
-                // bottom: const BorderSide(
-                //   width: 3,
-                //   color: Color.fromARGB(255, 255, 0, 0),
-                // ),
-              ),
-              color: Color.fromARGB(0, 0, 0, 0),
-            ),
-            child: Indexer(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'High-Protein Drink',
-                      style: TextStyle(color: Color.fromARGB(255, 19, 12, 12)),
-                    ),
-                    Indexed(
-                      index: 3,
-                      child: Expanded(
-                        child: getHighProteinDrinks(),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          CategoryViewer(
+            categoryDrinkList: getHighProteinDrinks(),
+            categoryDrinkName: 'High-Protein Drinks',
+          ),
+          CategoryViewer(
+            categoryDrinkList: getHighFiberDrinks(),
+            categoryDrinkName: 'High-Fiber Drinks',
           ),
           Container(
             child: Column(

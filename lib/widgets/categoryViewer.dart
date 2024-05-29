@@ -1,59 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:indexed/indexed.dart';
 import 'package:gudlife_/data/dummy_data.dart';
 import 'package:gudlife_/models/drink.dart';
 import 'package:gudlife_/widgets/drink_item.dart';
 
-class CategoryViewer extends StatefulWidget {
-  const CategoryViewer({super.key});
+class CategoryViewer extends StatelessWidget {
+  const CategoryViewer(
+      {super.key,
+      required this.categoryDrinkList,
+      required this.categoryDrinkName});
 
-  @override
-  State<CategoryViewer> createState() => _CategoryViewerState();
-}
+  final String categoryDrinkName;
+  final Widget categoryDrinkList;
 
-class _CategoryViewerState extends State<CategoryViewer> {
-
-  final String? title = '';
-  final List<Drink>? highProteinDrinksList = [];
-
-  Widget highPDrinks = ListView();
-    Widget antiFDrinks = ListView();
-    final List<Widget> categories = [];
-
-    Widget getHighProteinDrinks() {
-      for ( final drink in highProteinDrinks ) {
-        highPDrinks = ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: highProteinDrinks.length,
-          itemBuilder: (ctx, index) => DrinkItem(
-            drink: highProteinDrinks[index],
-          ),
-        );
-      }
-      
-      return highPDrinks;
-    }
-
-    Widget getAntiInflammatoryDrinks() {
-      for ( final drink in antiInflammatoryDrinks ) {
-         antiFDrinks= ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: antiInflammatoryDrinks.length,
-          itemBuilder: (ctx, index) => DrinkItem(
-            drink: antiInflammatoryDrinks[index],
-          ),
-        );
-      }
-      return antiFDrinks;
-    }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-              Expanded(child: getAntiInflammatoryDrinks())
-          ],
+    return Container(
+      height: 60,
+      decoration: const BoxDecoration(
+        border: Border(
+          // top: BorderSide(
+          //   width: 1,
+          //   color: Color.fromARGB(143, 255, 255, 255),
+          // ),
+          bottom: BorderSide(
+            width: 1,
+            color: Color.fromARGB(143, 255, 255, 255),
+          ),
         ),
+        color: Color.fromARGB(0, 0, 0, 0),
+      ),
+      child: Indexer(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 7),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 12,
+                  bottom: 7,
+                ),
+                child: Text(
+                  '${categoryDrinkName}' + ':',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    //fontStyle: FontStyle.italic
+                  ),
+                ),
+              ),
+              SizedBox(height: 5),
+              Indexed(
+                index: 3,
+                child: Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 5),
+                    child: categoryDrinkList,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
