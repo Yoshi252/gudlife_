@@ -43,6 +43,10 @@ dependencies:
   cloud_firestore: ^4.15.8
   indexed: ^0.0.8
   insta_image_viewer: ^1.0.4
+  rive: ^0.13.5
+  bulleted_list: ^0.0.1+0.1a
+  flutter_riverpod: ^2.5.1
+  like_button: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +75,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+      - assets/samples/ui/rive_app/rive/iconss.riv
       - assets/images/greenslime.png
       - assets/images/splash.json
       - assets/images/gudlife_logo.png
@@ -104,6 +109,7 @@ flutter:
     - family: Jost
       fonts:
         - asset: assets/fonts/DM_sans/DMSans_18pt-Black.ttf
+        - asset: assets/fonts/DM_sans/DMSans_24pt-Black.ttf
         - asset: assets/fonts/DM_sans/DMSans_18pt-Light.ttf
         
     

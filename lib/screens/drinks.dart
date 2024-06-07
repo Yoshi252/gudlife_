@@ -8,10 +8,11 @@ import 'package:gudlife_/models/drinks.dart';
 import 'package:gudlife_/widgets/drink_item.dart';
 
 class SelectedCategoriesScreen extends StatelessWidget {
-  const SelectedCategoriesScreen({super.key, required this.title, required this.highProteinDrinksList});
+  const SelectedCategoriesScreen({super.key, required this.title, required this.highProteinDrinksList, required this.onToggleFavorite});
 
   final String title;
   final List<Drink> highProteinDrinksList;
+  final void Function(Drink drink) onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class SelectedCategoriesScreen extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: antiInflammatoryDrinks.length,
           itemBuilder: (ctx, index) => DrinkItem(
+
             drink: antiInflammatoryDrinks[index],
           ),
         );

@@ -5,12 +5,22 @@ import 'package:gudlife_/models/drink.dart';
 import 'package:gudlife_/screens/drink_details.dart';
 import 'package:indexed/indexed.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gudlife_/providers/drinks_provider.dart';
+import 'package:like_button/like_button.dart';
 
-class DrinkItem extends StatelessWidget {
+class DrinkItem extends ConsumerStatefulWidget {
   const DrinkItem({super.key, required this.drink});
 
   final Drink drink;
 
+  @override
+  ConsumerState<DrinkItem> createState() {
+    return _DrinkItemState();
+  }
+}
+
+class _DrinkItemState extends ConsumerState<DrinkItem> {
   void _onSelectDrink(BuildContext context, Drink drink) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (ctx) => DrinkDetails(drink: drink)),
@@ -40,7 +50,7 @@ class DrinkItem extends StatelessWidget {
                             height: 171,
                             decoration: ShapeDecoration(
                               image: DecorationImage(
-                                image: AssetImage(drink.imageLocation),
+                                image: AssetImage(widget.drink.imageLocation),
                                 fit: BoxFit.fitWidth,
                               ),
                               color: Color.fromARGB(255, 0, 0, 0),
@@ -53,16 +63,37 @@ class DrinkItem extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 12, right: 12),
-                          child: Opacity(
-                            opacity: 0.6,
-                            child: Icon(
-                              Icons.star,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 12, left: 190),
+                            child: LikeButton(
+                              //circleColor: CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                              likeBuilder: (isPressed) {
+                                return IconButton(
+                                    icon: Icon(
+                                      Icons.star,
+                                      size: 25,
+                                    ),
+                                    onPressed: () {
+                                      final wasAdded = ref
+                                          .read(favoriteDrinksProvider.notifier)
+                                          .toggleMealFavoriteStatus(
+                                              widget.drink);
+                                      ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(wasAdded
+                                              ? 'Meal add as a favorite'
+                                              : 'Meal removed.'),
+                                        ),
+                                      );
+                                    },
+                                    color: isPressed
+                                        ? Color.fromARGB(248, 236, 240, 0)
+                                        : Color.fromARGB(144, 255, 255, 255));
+                              },
+                            )),
                       ],
                     ),
                     Container(
@@ -83,7 +114,7 @@ class DrinkItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              drink.title,
+                              widget.drink.title,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -99,8 +130,7 @@ class DrinkItem extends StatelessWidget {
                                   height: 84,
                                   child: SingleChildScrollView(
                                     child: Text(
-                                      drink.description,
-                                      
+                                      widget.drink.description,
                                       overflow: TextOverflow.fade,
                                       style: const TextStyle(
                                         color: Colors.white,
@@ -117,14 +147,20 @@ class DrinkItem extends StatelessWidget {
                             Row(
                               children: [
                                 const SizedBox(width: 12),
-                                Icon(Icons.person, size: 20),
-                                const SizedBox(width: 15),
+                                Expanded(
+                                    child: Row(
+                                  children: [
+                                    Icon(Icons.people, size: 20),
+                                    const SizedBox(width: 4),
+                                    Text('12')
+                                  ],
+                                )),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        _onSelectDrink(context, drink);
+                                        _onSelectDrink(context, widget.drink);
                                       },
                                       child: Container(
                                         width: 130,
@@ -132,7 +168,6 @@ class DrinkItem extends StatelessWidget {
                                         decoration: ShapeDecoration(
                                           color: Colors.yellow[200],
                                           shape: RoundedRectangleBorder(
-                                            
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
@@ -151,7 +186,7 @@ class DrinkItem extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(width: 15),
+                                const SizedBox(width: 13),
                                 const Expanded(
                                   child: Row(
                                     children: [

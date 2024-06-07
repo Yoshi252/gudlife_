@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gudlife_/data/dummy_data.dart';
 import 'package:gudlife_/models/category.dart';
 import 'package:gudlife_/models/drink.dart';
-import 'package:gudlife_/screens/drinks.dart';
+//import 'package:gudlife_/screens/drinks.dart';
 import 'package:gudlife_/widgets/categoryViewer.dart';
 import 'package:indexed/indexed.dart';
 import 'package:gudlife_/widgets/category_grid_item.dart';
@@ -13,6 +13,7 @@ import 'package:gudlife_/widgets/drink_item.dart';
  
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
+
 
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
@@ -96,39 +97,21 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         )
         .toList();
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => new SelectedCategoriesScreen(
-          title: category.title,
-          highProteinDrinksList: filteredMeals,
-        ),
-      ),
-    );
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (ctx) => new SelectedCategoriesScreen(
+    //       title: category.title,
+    //       highProteinDrinksList: filteredMeals,
+    //     ),
+    //   ),
+    // );
   }
+
+  Widget? screen;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(    
-        flexibleSpace: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-            child: Container(
-              color: Colors.transparent,
-            ),
-          ),
-        ),
-        toolbarHeight: 40, 
-        actions: [
-          IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            icon: Icon(Icons.exit_to_app,
-                color: Theme.of(context).colorScheme.primary),
-          ),
-        ],
-      ),
+    return Scaffold(    
       body: GridView(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
@@ -155,32 +138,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 Expanded(
                   child: getHighFiberDrinks(),
                 ),
-              ],
-            ),
-          ),
-          // Container(
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       const Text(
-          //         'Anti-Inflammatory Drink',
-          //         style: TextStyle(color: Colors.white),
-          //       ),
-          //       Expanded(
-          //         child: getAntiInflammatoryDrinks(),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Low-Blood Suger Drinks',
-                  style: TextStyle(color: Colors.white),
-                ),
-                Expanded(child: getLowBloodSugerDrinks()),
               ],
             ),
           ),

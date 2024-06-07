@@ -1,11 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gudlife_/firebase_options.dart';
+import 'package:gudlife_/models/drink.dart';
 import 'package:gudlife_/screens/auth.dart';
 import 'package:gudlife_/screens/login.dart';
 import 'package:gudlife_/screens/splash.dart';
+
+void Function(Drink drink)? onToggleFavorite;
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -34,7 +38,7 @@ void main() async {
         theme: theme,
         navigatorObservers: <NavigatorObserver>[routeObserver],
         routes: {
-          '/auth': (context) => const AuthScreen(),
+          '/auth': (context) => const ProviderScope(child: const AuthScreen()),
           '/splash': (context) => const SplashScreen(),
         },
         initialRoute: '/splash',
