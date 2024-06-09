@@ -15,6 +15,7 @@ final theme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.dark,
+    background: Colors.black,
     primaryContainer: Color.fromARGB(255, 9, 173, 83),
     seedColor: const Color.fromARGB(255, 131, 57, 0),
   ),

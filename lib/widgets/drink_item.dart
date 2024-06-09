@@ -8,6 +8,7 @@ import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gudlife_/providers/drinks_provider.dart';
 import 'package:like_button/like_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DrinkItem extends ConsumerStatefulWidget {
   const DrinkItem({super.key, required this.drink});
@@ -161,6 +162,7 @@ class _DrinkItemState extends ConsumerState<DrinkItem> {
                                     GestureDetector(
                                       onTap: () {
                                         _onSelectDrink(context, widget.drink);
+                                        
                                       },
                                       child: Container(
                                         width: 130,

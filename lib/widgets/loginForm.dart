@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:gudlife_/screens/quiz.dart';
 import 'package:gudlife_/widgets/sign_in_logo_buttons.dart';
 import 'package:gudlife_/widgets/sign_up_with.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,13 +58,28 @@ class _LoginFormState extends State<LoginForm>
     try {
       if (_isLogin) {
         final userCredentials = await _firebase.signInWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
-        print(userCredentials);
+          email: _enteredEmail,
+          password: _enteredPassword,
+        );
+        print('User Credentials');
+        print(
+          userCredentials.additionalUserInfo?.isNewUser,
+        );
       } else {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
-        print(userCredentials);
-
+          email: _enteredEmail,
+          password: _enteredPassword,
+        );
+        if (userCredentials.additionalUserInfo!.isNewUser) {
+          function() {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => const Quiz()
+              ),
+            );
+          }
+          function();
+        }
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userCredentials.user!.uid)
@@ -84,6 +100,43 @@ class _LoginFormState extends State<LoginForm>
       );
     }
   }
+
+  // void _submit() async {
+  //   final isValid = _formKey.currentState!.validate();
+
+  //   if (!isValid) {
+  //     return;
+  //   }
+
+  //   _formKey.currentState!.save();
+
+  //   try {
+  //     if (_isLogin) {
+  //       final userCredentials = await _firebase.signInWithEmailAndPassword(
+  //         email: _enteredEmail,
+  //         password: _enteredPassword,
+  //       );
+
+  //       //AdditionalUserInfo(isNewUser: true ? )
+  //     } else {
+  //       final userCredentials = await _firebase.createUserWithEmailAndPassword(
+  //         email: _enteredEmail,
+  //         password: _enteredPassword,
+  //       );
+  //       //AdditionalUserInfo.isNewUser ? :
+  //     }
+  //   } on FirebaseAuthException catch (error) {
+  //     if (error.code == 'email-already-in-use') {
+  //       // ..
+  //     }
+  //     ScaffoldMessenger.of(context).clearSnackBars();
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text(error.message ?? 'Authentication Failed'),
+  //       ),
+  //     );
+  //   }
+  // }
 
   bool pressed = false;
 
@@ -119,13 +172,13 @@ class _LoginFormState extends State<LoginForm>
                             width: 300,
                             child: TextFormField(
                               validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.trim().length < 4) {
-                              return 'Please enter atleast 4 characther';
-                            }
-                            return null;
-                          },
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value.trim().length < 4) {
+                                  return 'Please enter atleast 4 characther';
+                                }
+                                return null;
+                              },
                               decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.person_2_outlined),
                                 label: const Text('Username'),
@@ -416,7 +469,10 @@ class _LoginFormState extends State<LoginForm>
                                 ),
                               ),
                               child: Center(
-                                child: Text(_isLogin ? 'Login' : 'Sign Up'),
+                                child: Text(
+                                  _isLogin ? 'Login' : 'Sign Up',
+                                  style: const TextStyle(color: Colors.black),
+                                ),
                               ),
                             ),
                           ),

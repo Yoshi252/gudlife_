@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide UserCredential;
 import 'package:gudlife_/models/drink.dart';
 import 'package:gudlife_/screens/categories.dart';
 import 'package:gudlife_/screens/favoriteDrinks.dart';
@@ -20,6 +21,7 @@ class TabsScreen extends ConsumerStatefulWidget {
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
   final List<Drink> _favoriteDrinks = [];
+
 
   void _toggleMealFavoriteStatus(Drink drink) {
     final isExisting = _favoriteDrinks.contains(drink);
@@ -55,25 +57,29 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        //title: Text(activePageTitle),
+        backgroundColor: Colors.black,
         actions: [
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
             },
-            icon: Icon(Icons.exit_to_app,
-                color: Theme.of(context).colorScheme.primary),
+            icon: const Icon(
+              Icons.door_back_door_outlined,
+              color: Colors.white,
+              size: 25,
+            ),
           ),
         ],
       ),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: const Color.fromARGB(213, 255, 245, 157),
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.category_outlined),
+            icon: Icon(Icons.local_drink),
             label: 'Drinks',
           ),
           BottomNavigationBarItem(

@@ -6,6 +6,7 @@ import 'package:gudlife_/screens/categories.dart';
 import 'package:gudlife_/screens/home.dart';
 import 'package:gudlife_/screens/loading.dart';
 import 'package:gudlife_/screens/login.dart';
+import 'package:gudlife_/screens/quiz.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -15,8 +16,8 @@ class AuthScreen extends StatelessWidget {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (ctx, snapshot) {
-        if (snapshot.hasData) {
-          return TabsScreen();
+        if (snapshot.hasData){
+          return Quiz();
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           // suppoed to be for loading screen. change later.

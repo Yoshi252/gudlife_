@@ -47,6 +47,7 @@ dependencies:
   bulleted_list: ^0.0.1+0.1a
   flutter_riverpod: ^2.5.1
   like_button: ^2.0.5
+  transparent_image: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
       - assets/samples/ui/rive_app/rive/iconss.riv
+      - assets/images/card_pics/anti-inflammation.png
+      - assets/images/card_pics/arm-muslce.png
       - assets/images/greenslime.png
       - assets/images/splash.json
       - assets/images/gudlife_logo.png
@@ -111,7 +114,9 @@ flutter:
         - asset: assets/fonts/DM_sans/DMSans_18pt-Black.ttf
         - asset: assets/fonts/DM_sans/DMSans_24pt-Black.ttf
         - asset: assets/fonts/DM_sans/DMSans_18pt-Light.ttf
-        
+    - family: BebasNeue
+      fonts:
+        - asset: assets/fonts/Bebas_Neue/BebasNeue-Regular.ttf
     
   #
   # For details regarding fonts from package dependencies,
